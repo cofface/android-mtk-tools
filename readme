@@ -1,0 +1,18 @@
+1、解包方法：
+boot.img:
+./unpack.pl boot.img
+
+recovery.img:
+./unpack.pl recovery.img
+
+2、打包方法：
+打包boot.img:
+./repack.pl -boot kernel ramdisk/ boot-new.img
+
+打包recovery.img:
+./repack.pl -recovery kernel ramdisk/ boot-new.img
+
+
+
+
+
