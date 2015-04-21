@@ -10,7 +10,7 @@ recovery.img:
 ./repack.pl -boot kernel ramdisk/ boot-new.img
 
 打包recovery.img:
-./repack.pl -recovery kernel ramdisk/ boot-new.img
+./repack.pl -recovery kernel ramdisk/ recovery-new.img
 
 
 
