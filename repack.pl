@@ -36,6 +36,22 @@ if ($ARGV[0] eq "-boot" || $ARGV[0] eq "-recovery") {
 	die "Usage: $usage";
 }
 
+sub clean_files {
+#clean kernel args.txt ramdisk
+if( -e "kernel")
+{
+unlink("kernel");
+}
+if( -e "args.txt")
+{
+unlink("args.txt");
+}
+if( -d "ramdisk")
+{
+system ("rm -rf ramdisk");
+}
+}
+
 sub repack_boot {
 	my ($type, $mode, $kernel, $ramdiskdir, $outfile) = @ARGV;
 	$type =~ s/^-//;
@@ -180,3 +196,4 @@ sub die_msg {
 	die colored ("\n" . wrap("","       ","Error: $_[0]"), 'red') . "\n";
 }
 
+clean_files();

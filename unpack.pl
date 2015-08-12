@@ -17,7 +17,7 @@ use Scalar::Util qw(looks_like_number);
 use FindBin qw($Bin);
 use Text::Wrap;
 
-my $version = "mtk-unpack script by cofface 20150127\n";
+my $version = "mtk-unpack script by cofface 20150812\n";
 my $usageMain = "unpack-MTK.pl <infile> [COMMAND ...]\n  Unpacks MTK boot, recovery\n\n";
 my $usage = $usageMain;
 
@@ -45,6 +45,28 @@ while (<INPUTFILE>) {
 }
 close (INPUTFILE);
 
+sub clean_files {
+#clean boot-new.img kernel args.txt ramdisk
+if( -e "boot-new.img")
+{
+unlink("boot-new.img");
+}
+if( -e "kernel")
+{
+unlink("kernel");
+}
+if( -e "args.txt")
+{
+unlink("args.txt");
+}
+if( -d "ramdisk")
+{
+system ("rm -rf ramdisk");
+}
+}
+
+clean_files();
+
 if (substr($input, 0, 8) eq "ANDROID!") {
 	# else, if a valid Android signature is found, try to unpack boot or recovery image
 	print "Valid Android signature found...\n";
@@ -66,6 +88,7 @@ if (substr($input, 0, 8) eq "ANDROID!") {
 	die_msg("the input file does not appear to be supported or valid!");
 }
 
+
 sub unpack_boot {
 	my ($bootimg, $extract, $mode) = @_;
 	my ($bootMagic, $kernelSize, $kernelLoadAddr, $ram1Size, $ram1LoadAddr, $ram2Size, $ram2LoadAddr, $tagsAddr, $pageSize, $unused1, $unused2, $bootName, $cmdLine, $id) = unpack('a8 L L L L L L L L L L a16 a512 a20', $bootimg);
@@ -81,6 +104,8 @@ sub unpack_boot {
 	# remove trailing zeros from board and cmdline
 	$bootName =~ s/\x00+$//;
 	$cmdLine =~ s/\x00+$//;
+	
+	
 
 	# print input file information (only in normal mode)
 	if (!$debug_mode) {
