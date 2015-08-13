@@ -17,7 +17,7 @@ use Text::Wrap;
 
 my $dir = getcwd;
 
-my $version = "mtk-unpack script by cofface 20150127\n";
+my $version = "mtk-unpack script by cofface 20150813\n";
 my $usageMain = "repack-MTK.pl <COMMAND ...> <outfile>\n  Repacks MTK boot, recovery\n\n";
 my $usage = $usageMain;
 
@@ -160,6 +160,7 @@ sub repack_boot {
 
 	if (-e $outfile) {
 		print colored ("\nSuccessfully repacked $type image into '$outfile'.", 'green') . "\n";
+		clean_files();
 	}
 }
 
@@ -195,5 +196,3 @@ sub png_to_rgb565 {
 sub die_msg {
 	die colored ("\n" . wrap("","       ","Error: $_[0]"), 'red') . "\n";
 }
-
-clean_files();
